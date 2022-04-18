@@ -25,6 +25,7 @@ internal static class DRK
         LivingShadow = 16472,
         SaltAndDarkness = 25755,
         Shadowbringer = 25757;
+        Plunge = ;
 
     public static class Buffs
     {
@@ -62,6 +63,54 @@ internal static class DRK
     }
 }
 
+internal class OneOGCD : CustomCombo
+{
+    protected internal override CustomCombo Preset Preset { get; } = CustomComboPresent.DrkAny;
+    
+    protected override uint Invoke(uint actionID, uint lastComboMove, float comboTime, byte level)
+    {
+        if (actionID == DRK.Delirium)
+        {
+            var gauge = GetJobGauge<DRKGauge>();
+            
+            if (IsEnabled(CustomComboPresent.OneOGCD))
+            {
+                if (isOffCooldown(DRK.Delirium))
+                {
+                    return DRK.Delirium;
+                }
+                if (HasEffect(DRK.Buffs.Delirium) && isOffCooldown(DRK.LivingShadow))
+                {
+                    return DRK.LivingShadow;
+                }
+                if (isOffCooldown(DRK.SaltedEarth))
+                {
+                    return DRK.SaltedEarth;
+                }
+                if (HasEffect(DRK.Darkside) && GetRemainingCharges(DRK.Shadowbringer) == 2)
+                {
+                    return DRK.Shadowbringer;
+                }
+                if (GetRemainingCharges(DRK.Shadowbringer) == 1)
+                {
+                    return DRK.CarveAndSpit;
+                }
+                if (HasEffect(DRK.Darkside) && GetRemainingCharges(DRK.Shadowbringer) == 1)
+                {
+                    return DRK.Shadowbringer;
+                }
+                if (GetRemainingCharges(DRK.Shadowbringer) == 0)
+                {
+                    return DRK.SaltAndDarkness;
+                }
+                return DRK.Delirium;
+            }
+       }
+       return actionID;
+   }
+}
+            
+/*
 internal class DarkSouleater : CustomCombo
 {
     protected internal override CustomComboPreset Preset { get; } = CustomComboPreset.DrkAny;
@@ -226,3 +275,4 @@ internal class DarkLivingShadow : CustomCombo
         return actionID;
     }
 }
+*/
