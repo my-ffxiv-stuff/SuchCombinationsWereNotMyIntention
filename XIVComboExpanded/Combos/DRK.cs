@@ -25,7 +25,6 @@ internal static class DRK
         LivingShadow = 16472,
         SaltAndDarkness = 25755,
         Shadowbringer = 25757;
-        Plunge = ;
 
     public static class Buffs
     {
